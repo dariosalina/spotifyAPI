@@ -1,22 +1,24 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../db')
+const Sequelize = require("sequelize");
+const sequelize = require("../db");
 
-
-const Playlist = sequelize.define('playlists', {
-  name: {
-    type: Sequelize.STRING,
-    field: 'name',
-    allowNull: false
-  },
-  UserId: {
-    type: Sequelize.INTEGER,
-    field: 'user_id',
-    },
-  }, 
-  
+const Playlist = sequelize.define(
+  "playlists",
   {
-  timestamps: false,
-  tableName: 'playlists'
-})
+    name: {
+      type: Sequelize.STRING,
+      field: "name",
+      allowNull: false
+    },
+    UserId: {
+      type: Sequelize.INTEGER,
+      field: "user_id"
+    }
+  },
 
-module.exports = Playlist
+  {
+    timestamps: false,
+    tableName: "playlists"
+  }
+);
+
+module.exports = Playlist;

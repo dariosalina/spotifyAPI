@@ -1,17 +1,14 @@
 const { Router } = require("express");
 const Playlist = require("./model");
 
-
-
 const router = new Router();
 
-
 router.post("/playlists", (req, res, next) => {
-    Playlist.create(req.body)
+  Playlist.create(req.body)
     .then(playlist => {
       if (!playlist) {
         return res.status(404).send({
-          message: `Company does not exist`
+          message: `Playlist does not exist`
         });
       }
       return res.status(201).send(playlist);
@@ -20,38 +17,37 @@ router.post("/playlists", (req, res, next) => {
 });
 
 router.get("/playlists", (req, res, next) => {
-  Playlist
-  .findAll()
-  .then((playlists) => {
-      res.status(201).send(playlists);
+  Playlist.findAll()
+    .then(playlists => {
+      res.status(200).send(playlists);
     })
     .catch(error => next(error));
 });
 
 router.get("/playlists/:id", (req, res, next) => {
-    Playlist.findById(req.params.id)
+  Playlist.findById(req.params.id)
     .then(playlist => {
       if (!playlist) {
         return res.status(404).send({
-          message: `Company does not exist`
+          message: `Playlist does not exist`
         });
       }
-      return res.status(201).send(playlist);
+      return res.status(200).send(playlist);
     })
     .catch(error => next(error));
 });
 
 router.delete("/playlists/:id", (req, res, next) => {
-    Playlist.findById(req.params.id)
+  Playlist.findById(req.params.id)
     .then(playlist => {
       if (!playlist) {
         return res.status(404).send({
-          message: `Company does not exist`
+          message: `Playlist does not exist`
         });
       }
       return playlist.destroy().then(() =>
-        res.send({
-          message: `Company was deleted`
+        res.status(200).send({
+          message: `Playlist was deleted`
         })
       );
     })

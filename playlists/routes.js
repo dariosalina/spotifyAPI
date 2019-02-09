@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const Playlist = require("./model");
-
+const User = require('../user/model');
 const router = new Router();
 
 router.post("/playlists", (req, res, next) => {
@@ -25,7 +25,7 @@ router.get("/playlists", (req, res, next) => {
 });
 
 router.get("/playlists/:id", (req, res, next) => {
-  Playlist.findById(req.params.id)
+  Playlist.findById(req.params.id,{ include: [User] })
     .then(playlist => {
       if (!playlist) {
         return res.status(404).send({

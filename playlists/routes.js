@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const Playlist = require("./model");
 const User = require('../user/model');
+const auth = require('../authentication/middleware')
 const router = new Router();
 
-router.post("/playlists", (req, res, next) => {
+router.post("/playlists", auth, (req, res, next) => {
   Playlist.create(req.body)
     .then(playlist => {
       if (!playlist) {
@@ -16,7 +17,7 @@ router.post("/playlists", (req, res, next) => {
     .catch(error => next(error));
 });
 
-router.get("/playlists", (req, res, next) => {
+router.get("/playlists",auth, (req, res, next) => {
   Playlist.findAll()
     .then(playlists => {
       res.status(200).send(playlists);
@@ -24,7 +25,7 @@ router.get("/playlists", (req, res, next) => {
     .catch(error => next(error));
 });
 
-router.get("/playlists/:id", (req, res, next) => {
+router.get("/playlists/:id", auth, (req, res, next) => {
   Playlist.findById(req.params.id,{ include: [User] })
     .then(playlist => {
       if (!playlist) {
@@ -37,7 +38,7 @@ router.get("/playlists/:id", (req, res, next) => {
     .catch(error => next(error));
 });
 
-router.delete("/playlists/:id", (req, res, next) => {
+router.delete("/playlists/:id", auth, (req, res, next) => {
   Playlist.findById(req.params.id)
     .then(playlist => {
       if (!playlist) {

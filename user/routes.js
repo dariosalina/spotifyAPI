@@ -6,10 +6,22 @@ const bcrypt = require("bcrypt");
 const router = new Router();
 
 router.post("/users", (req, res) => {
-  const user = {
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10)
-  };
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+    .then(entity => {
+      if (entity) {
+        res.status(400).send({
+          message: "Email already used, use another email "
+        });
+      }
+      if(req.body.email && req.body.password){  
+      const user = {
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 10)
+      };
   User.create(user).then(user => {
     if (!user) {
       res.status(400).send({
@@ -21,6 +33,9 @@ router.post("/users", (req, res) => {
       .send(user)
       .catch(error => next(error));
   });
+      }
+});
+  
 });
 
 module.exports = router;
